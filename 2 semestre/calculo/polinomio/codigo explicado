@@ -1,0 +1,77 @@
+Estrutura do Código
+Bibliotecas Inclusas:
+
+c
+Copiar código
+#include <stdio.h>
+#include <stdlib.h>
+stdio.h: Usada para funções de entrada e saída, como printf e scanf.
+stdlib.h: Usada para funções de alocação de memória, como malloc e free.
+Função derivada:
+
+c
+Copiar código
+void derivada(int grau, double coeficientes[], double coeficientes_derivada[]) {
+    for (int i = 0; i < grau; i++) {
+        coeficientes_derivada[i] = coeficientes[i] * (grau - i);
+    }
+}
+Objetivo: Calcular a derivada do polinômio.
+Como Funciona:
+Para cada coeficiente do polinômio, a derivada é calculada multiplicando o coeficiente pelo seu respectivo expoente (que é grau - i).
+O loop vai até grau - 1, pois a derivada de um polinômio de grau n resulta em um polinômio de grau n-1.
+Função exibir_polinomio:
+
+c
+Copiar código
+void exibir_polinomio(int grau, double coeficientes[]) {
+    for (int i = 0; i <= grau; i++) {
+        if (coeficientes[i] != 0) {
+            if (i < grau) {
+                printf("%.1fx^%d ", coeficientes[i], grau - i);
+                if (coeficientes[i + 1] != 0) {
+                    printf("+ ");
+                }
+            } else {
+                printf("%.1f ", coeficientes[i]);
+            }
+        }
+    }
+}
+Objetivo: Exibir o polinômio de forma legível.
+Como Funciona:
+Percorre os coeficientes e imprime cada termo do polinômio.
+Se o coeficiente for zero, é ignorado. Para termos não nulos, imprime o coeficiente e o expoente.
+Um sinal de + é adicionado entre os termos, mas apenas se o próximo coeficiente não for zero.
+Função main:
+
+c
+Copiar código
+int main() {
+    int grau;
+    printf("Digite o grau do polinômio: ");
+    scanf("%d", &grau);
+    // Validação do grau
+    // Alocação de memória para os coeficientes
+    // Entrada dos coeficientes
+    // Exibição do polinômio
+    // Cálculo da derivada
+    // Exibição da derivada
+    // Liberação de memória
+    return 0;
+}
+Objetivo: Gerenciar a interação com o usuário e a execução do programa.
+Como Funciona:
+Pede ao usuário para inserir o grau do polinômio e valida essa entrada.
+Aloca dinamicamente a memória necessária para armazenar os coeficientes do polinômio.
+Pede ao usuário para inserir cada coeficiente.
+Exibe o polinômio original usando a função exibir_polinomio.
+Chama a função derivada para calcular os coeficientes da derivada.
+Exibe a derivada do polinômio.
+Libera a memória alocada antes de sair.
+Resumo
+A lógica por trás do código é um fluxo simples de entrada, processamento e saída:
+
+O usuário insere o grau e os coeficientes do polinômio.
+O programa calcula e exibe tanto o polinômio quanto sua derivada.
+Usando alocação dinâmica, o código é capaz de lidar com polinômios de diferentes tamanhos, aumentando sua flexibilidade.
