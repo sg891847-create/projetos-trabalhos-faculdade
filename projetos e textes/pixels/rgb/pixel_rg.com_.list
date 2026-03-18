@@ -1,0 +1,86 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+pixel_rg.com_ -- emu8086 assembler version: 4.08  
+ 
+[ 20/11/2024  --  22:04:47 ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       ; Programa para definir e obter cores de pixel utilizando RGB
+[   2]        :                                       
+[   3]        :                                       name "pixel_rgb"
+[   4]        :                                       
+[   5]        :                                       org  100h
+[   6]        :                                       
+[   7]        :                                       ; Configura o modo de exibição
+[   8]    0100: B4 00                                 mov ah, 0   ; função de configuração de modo de exibição.
+[   9]    0102: B0 13                                 mov al, 13h ; modo 13h = 320x200 pixels, 256 cores.
+[  10]    0104: CD 10                                 int 10h     ; set it!
+[  11]        :                                       
+[  12]        :                                       ; Define uma cor RGB na paleta
+[  13]        :                                       ; Aqui, o índice 128 é definido como uma cor RGB (cor a ser usada no pixel)
+[  14]    0106: BA C8 03                              mov dx, 3c8h ; porta de controle da paleta
+[  15]    0109: B0 80                                 mov al, 128  ; índice da cor
+[  16]    010B: EE                                    out dx, al   ; enviar índice
+[  17]    010C: 42                                    inc dx        ; próxima porta
+[  18]    010D: B0 00                                 mov al, 0    ; valor R (0)
+[  19]    010F: EE                                    out dx, al   ; R
+[  20]    0110: B0 00                                 mov al, 0    ; valor G (0)
+[  21]    0112: EE                                    out dx, al   ; G
+[  22]    0113: B0 3F                                 mov al, 63   ; valor B (63, máximo para azul)
+[  23]    0115: EE                                    out dx, al   ; B
+[  24]        :                                       
+[  25]        :                                       ; Define e obtém pixels
+[  26]    0116: B9 96 00                              mov cx, 150 ; coluna
+[  27]    0119: BA 14 00                              mov dx, 20  ; linha
+[  28]    011C: B0 80                                 mov al, 128 ; cor do pixel
+[  29]    011E: B4 0C                                 mov ah, 0ch ; put pixel
+[  30]    0120: CD 10                                 int 10h
+[  31]        :                                       
+[  32]    0122: 32 C0                                 xor al, al  ; al = 0
+[  33]    0124: B9 14 00                              mov cx, 20  ; coluna
+[  34]    0127: BA 14 00                              mov dx, 20  ; linha
+[  35]    012A: B4 0D                                 mov ah, 0dh ; get pixel
+[  36]    012C: CD 10                                 int 10h
+[  37]        :                                       
+[  38]        :                                       ; Outro pixel
+[  39]    012E: B9 96 00                              mov cx, 150 ; coluna
+[  40]    0131: BA 28 00                              mov dx, 40  ; linha
+[  41]    0134: B0 80                                 mov al, 128 ; cor do pixel
+[  42]    0136: B4 0C                                 mov ah, 0ch ; put pixel
+[  43]    0138: CD 10                                 int 10h
+[  44]        :                                       
+[  45]    013A: 32 C0                                 xor al, al  ; al = 0
+[  46]    013C: B9 14 00                              mov cx, 20  ; coluna
+[  47]    013F: BA 14 00                              mov dx, 20  ; linha
+[  48]    0142: B4 0D                                 mov ah, 0dh ; get pixel
+[  49]    0144: CD 10                                 int 10h
+[  50]        :                                       
+[  51]        :                                       ; Continue com mais pixels se necessário...
+[  52]        :                                       
+[  53]        :                                       ; Pausa a tela para compatibilidade com o DOS
+[  54]    0146: B4 00                                 mov ah, 00  ; espera por tecla
+[  55]    0148: CD 16                                 int 16h
+[  56]        :                                       
+[  57]        :                                       ; Retorna ao modo texto
+[  58]    014A: B4 00                                 mov ah, 00  ; função de configuração de modo de exibição.
+[  59]    014C: B0 03                                 mov al, 03  ; modo texto normal 3
+[  60]    014E: CD 10                                 int 10h     ; set it!
+[  61]        :                                       
+[  62]    0150: C3                                    ret
+[  63]        :                                       
+[  64]        :                                       
+[  65]        :                                       
+[  66]        :                                       
+[  67]        :                                       
+[  68]        :                                       
+ 
+===================================================================================================
+ 
+
+
+
+
+===================================================================================================

@@ -1,0 +1,71 @@
+; Programa para definir e obter cores de pixel utilizando RGB
+
+name "pixel_rgb"
+
+org  100h
+
+; Configura o modo de exibição
+mov ah, 0   ; função de configuração de modo de exibição.
+mov al, 13h ; modo 13h = 320x200 pixels, 256 cores.
+int 10h     ; set it!
+
+; Define uma cor RGB na paleta
+; Aqui, o índice 128 é definido como uma cor RGB (cor a ser usada no pixel)
+mov dx, 3c8h ; porta de controle da paleta
+mov al, 128  ; índice da cor
+out dx, al   ; enviar índice
+inc dx        ; próxima porta
+mov al, 0    ; valor R (0)
+out dx, al   ; R
+mov al, 0    ; valor G (0)
+out dx, al   ; G
+mov al, 63   ; valor B (63, máximo para azul)
+out dx, al   ; B
+
+; Define e obtém pixels
+mov cx, 150 ; coluna
+mov dx, 20  ; linha
+mov al, 128 ; cor do pixel
+mov ah, 0ch ; put pixel
+int 10h
+
+xor al, al  ; al = 0
+mov cx, 20  ; coluna
+mov dx, 20  ; linha
+mov ah, 0dh ; get pixel
+int 10h
+
+; Outro pixel
+mov cx, 150 ; coluna
+mov dx, 40  ; linha
+mov al, 128 ; cor do pixel
+mov ah, 0ch ; put pixel
+int 10h
+
+xor al, al  ; al = 0
+mov cx, 20  ; coluna
+mov dx, 20  ; linha
+mov ah, 0dh ; get pixel
+int 10h
+
+; Continue com mais pixels se necessário...
+
+; Pausa a tela para compatibilidade com o DOS
+mov ah, 00  ; espera por tecla
+int 16h
+
+; Retorna ao modo texto
+mov ah, 00  ; função de configuração de modo de exibição.
+mov al, 03  ; modo texto normal 3
+int 10h     ; set it!
+
+ret
+
+
+
+
+
+
+
+
+; [SOURCE]: C:\Users\sg891\Documents\emu8086\MySource\rgb pixel.asm

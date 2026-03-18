@@ -1,0 +1,117 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+5 pixels.com -- emu8086 assembler version: 4.08  
+ 
+[ 31/10/2024  --  09:46:01 ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       ; a short program to check how
+[   2]        :                                       ; set and get pixel color works
+[   3]        :                                       
+[   4]        :                                       name "pixel"
+[   5]        :                                       
+[   6]        :                                       org  100h
+[   7]        :                                       
+[   8]        :                                       ;primeiro pixel
+[   9]        :                                       
+[  10]    0100: B4 00                                 mov ah, 0   ; set display mode function.
+[  11]    0102: B0 13                                 mov al,13h  ; mode 13h = 320x200 pixels, 256 colors.
+[  12]    0104: CD 10                                 int 10h     ; set it!
+[  13]        :                                       
+[  14]    0106: B9 96 00                              mov cx, 150 ; coluna
+[  15]    0109: BA 14 00                              mov dx, 20  ; linha
+[  16]    010C: B0 80                                 mov al, 128 ; cor do pixel
+[  17]    010E: B4 0C                                 mov ah, 0ch ; put pixel
+[  18]    0110: CD 10                                 int 10h
+[  19]        :                                       
+[  20]    0112: 32 C0                                 xor al, al  ; al = 0
+[  21]        :                                       
+[  22]    0114: B9 14 00                              mov cx, 20  ; coluna
+[  23]    0117: BA 14 00                              mov dx, 20  ; linh
+[  24]    011A: B4 0D                                 mov ah, 0dh ; get pixel
+[  25]    011C: CD 10                                 int 10h
+[  26]        :                                       
+[  27]        :                                       ;segundo pixel
+[  28]    011E: B9 96 00                              mov cx, 150 ; columna
+[  29]    0121: BA 28 00                              mov dx, 40  ; linha
+[  30]    0124: B0 80                                 mov al, 128 ; cor do pixel
+[  31]    0126: B4 0C                                 mov ah, 0ch ; put pixel
+[  32]    0128: CD 10                                 int 10h
+[  33]        :                                       
+[  34]    012A: 32 C0                                 xor al, al  ; al = 0
+[  35]        :                                       
+[  36]    012C: B9 14 00                              mov cx, 20  ; columna
+[  37]    012F: BA 14 00                              mov dx, 20  ; linha
+[  38]    0132: B4 0D                                 mov ah, 0dh ; get pixel
+[  39]    0134: CD 10                                 int 10h
+[  40]        :                                       
+[  41]        :                                       ;terceiro pixel
+[  42]    0136: B9 96 00                              mov cx, 150 ; coluna
+[  43]    0139: BA 3C 00                              mov dx, 60  ; linha
+[  44]    013C: B0 80                                 mov al, 128 ; cor do pixel
+[  45]    013E: B4 0C                                 mov ah, 0ch ; put pixel
+[  46]    0140: CD 10                                 int 10h
+[  47]        :                                       
+[  48]    0142: 32 C0                                 xor al, al  ; al = 0
+[  49]        :                                       
+[  50]    0144: B9 14 00                              mov cx, 20  ; column
+[  51]    0147: BA 14 00                              mov dx, 20  ; row
+[  52]    014A: B4 0D                                 mov ah, 0dh ; get pixel
+[  53]    014C: CD 10                                 int 10h
+[  54]        :                                       
+[  55]        :                                       ;quarto pixel
+[  56]    014E: B9 96 00                              mov cx, 150 ; coluna
+[  57]    0151: BA 50 00                              mov dx, 80  ; linha
+[  58]    0154: B0 80                                 mov al, 128 ; cor do pixel
+[  59]    0156: B4 0C                                 mov ah, 0ch ; put pixel
+[  60]    0158: CD 10                                 int 10h
+[  61]        :                                       
+[  62]    015A: 32 C0                                 xor al, al  ; al = 0
+[  63]        :                                       
+[  64]    015C: B9 14 00                              mov cx, 20  ; coluna
+[  65]    015F: BA 14 00                              mov dx, 20  ; linha
+[  66]    0162: B4 0D                                 mov ah, 0dh ; get pixel
+[  67]    0164: CD 10                                 int 10h
+[  68]        :                                       
+[  69]        :                                       
+[  70]        :                                       ;quinto pixel
+[  71]    0166: B9 96 00                              mov cx, 150 ; coluna
+[  72]    0169: BA 64 00                              mov dx, 100 ; linha
+[  73]    016C: B0 80                                 mov al, 128 ; cor do pixel
+[  74]    016E: B4 0C                                 mov ah, 0ch ; put pixel
+[  75]    0170: CD 10                                 int 10h
+[  76]        :                                       
+[  77]    0172: 32 C0                                 xor al, al  ; al = 0
+[  78]        :                                       
+[  79]    0174: B9 14 00                              mov cx, 20  ; coluna
+[  80]    0177: BA 14 00                              mov dx, 20  ; linha
+[  81]    017A: B4 0D                                 mov ah, 0dh ; get pixel
+[  82]    017C: CD 10                                 int 10h
+[  83]        :                                       
+[  84]        :                                       ; pause the screen for dos compatibility:
+[  85]        :                                       
+[  86]        :                                       ;wait for keypress
+[  87]    017E: B4 00                                 mov ah,00
+[  88]    0180: CD 16                                 int 16h			
+[  89]        :                                       
+[  90]        :                                       ; return to text mode:
+[  91]    0182: B4 00                                 mov ah,00 ; set display mode function.
+[  92]    0184: B0 03                                 mov al,03 ; normal text mode 3
+[  93]    0186: CD 10                                 int 10h   ; set it!
+[  94]        :                                       
+[  95]        :                                       
+[  96]    0188: C3                                    ret
+[  97]        :                                       
+[  98]        :                                       
+[  99]        :                                       
+ 
+===================================================================================================
+ 
+
+
+
+
+===================================================================================================
