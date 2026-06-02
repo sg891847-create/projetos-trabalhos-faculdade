@@ -1,0 +1,310 @@
+import glfw
+from OpenGL.GL import *
+import OpenGL.GL.shaders
+import numpy as np
+
+Window = None
+WIDTH = 1000
+HEIGHT = 800
+
+# Variáveis Globais para os Shaders (Ex5)
+Shader_Quadrado = None
+Shader_Triangulo = None
+
+# Variáveis Globais para os Objetos (VAOs e VBOs)
+Vao_Ex2_3 = None  # Compartilhado para Ex2 e Ex3 (6 vértices)
+
+Vao_Ex4_T1 = None # Ex4: Triângulo 1
+Vao_Ex4_T2 = None # Ex4: Triângulo 2
+
+Vao_Quadrado = None  # Ex5: Quadrado
+Vao_Triangulo = None # Ex5: Triângulo independente
+
+def redimensionaCallback(window, w, h):
+    global WIDTH, HEIGHT
+    WIDTH = w
+    HEIGHT = h
+
+def inicializaOpenGL():
+    global Window, WIDTH, HEIGHT
+    glfw.init()
+    Window = glfw.create_window(WIDTH, HEIGHT, "Resolução Todos os Exercícios - OpenGL Moderno", None, None)
+    if not Window:
+        glfw.terminate()
+        exit()
+    glfw.set_window_size_callback(Window, redimensionaCallback)
+    glfw.make_context_current(Window)
+
+# --- FUNÇÕES DE INICIALIZAÇÃO DOS OBJETOS ---
+
+def inicializaExercicio2_e_3():
+    """Ex2 e Ex3: Dois triângulos (um invertido) no mesmo VAO/VBO (6 vértices total)"""
+    global Vao_Ex2_3
+    
+    Vao_Ex2_3 = glGenVertexArrays(1)
+    glBindVertexArray(Vao_Ex2_3)
+
+    # Ex 3: Inverte o sinal do eixo Y para deixar o segundo triângulo de cabeça para baixo
+    pontos = [
+        # Triângulo 1 (Normal - Esquerda)
+        -0.6,  0.4, 0.0,
+        -0.3, -0.2, 0.0,
+        -0.9, -0.2, 0.0,
+        # Triângulo 2 (Invertido no eixo Y - Direita)
+        0.6, -0.4, 0.0,  # Invertido Y
+        0.9,  0.2, 0.0,  # Invertido Y
+        0.3,  0.2, 0.0   # Invertido Y
+    ]
+    pontos = np.array(pontos, dtype=np.float32)
+
+    pvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, pvbo)
+    glBufferData(GL_ARRAY_BUFFER, pontos, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    # Ex 1: Tons de azul e azul marinho aplicados a todos os vértices
+    cores = [
+        0.0,  0.0,  1.0,   # Azul Puro
+        0.0,  0.0,  0.5,   # Azul Escuro
+        0.0,  0.0,  0.31,  # Azul Marinho
+        
+        0.0,  0.0,  0.31,  # Azul Marinho
+        0.10, 0.10, 0.27,  # Azul Meia-Noite
+        0.26, 0.44, 0.76   # Azul Royal
+    ]
+    cores = np.array(cores, dtype=np.float32)
+
+    cvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, cvbo)
+    glBufferData(GL_ARRAY_BUFFER, cores, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+
+def inicializaExercicio4():
+    """Ex4: Dois triângulos separados, cada um com seu próprio VAO e 2 VBOs (4 VBOs no total)"""
+    global Vao_Ex4_T1, Vao_Ex4_T2
+
+    # --- TRIÂNGULO 1 ---
+    Vao_Ex4_T1 = glGenVertexArrays(1)
+    glBindVertexArray(Vao_Ex4_T1)
+    
+    p1 = np.array([-0.5, 0.7, 0.0, -0.2, 0.2, 0.0, -0.8, 0.2, 0.0], dtype=np.float32)
+    vbo_p1 = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_p1)
+    glBufferData(GL_ARRAY_BUFFER, p1, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    c1 = np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.31], dtype=np.float32) # Tons de Azul
+    vbo_c1 = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_c1)
+    glBufferData(GL_ARRAY_BUFFER, c1, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    # --- TRIÂNGULO 2 ---
+    Vao_Ex4_T2 = glGenVertexArrays(1)
+    glBindVertexArray(Vao_Ex4_T2)
+    
+    p2 = np.array([0.5, 0.7, 0.0, 0.8, 0.2, 0.0, 0.2, 0.2, 0.0], dtype=np.float32)
+    vbo_p2 = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_p2)
+    glBufferData(GL_ARRAY_BUFFER, p2, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    c2 = np.array([0.26, 0.44, 0.76, 0.0, 0.0, 0.31, 0.10, 0.10, 0.27], dtype=np.float32) # Tons de Azul
+    vbo_c2 = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_c2)
+    glBufferData(GL_ARRAY_BUFFER, c2, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+
+def inicializaQuadrado():
+    """Ex5: Inicializa a geometria do Quadrado (2 triângulos = 6 vértices) no lado Esquerdo"""
+    global Vao_Quadrado
+    Vao_Quadrado = glGenVertexArrays(1)
+    glBindVertexArray(Vao_Quadrado)
+
+    # Coordenadas do Quadrado (X, Y, Z)
+    pontos = [
+        -0.7,  0.3, 0.0,  # T1: Cima Esquerda
+        -0.3,  0.3, 0.0,  # T1: Cima Direita
+        -0.7, -0.1, 0.0,  # T1: Baixo Esquerda
+
+        -0.3,  0.3, 0.0,  # T2: Cima Direita
+        -0.3, -0.1, 0.0,  # T2: Baixo Direita
+        -0.7, -0.1, 0.0   # T2: Baixo Esquerda
+    ]
+    pontos = np.array(pontos, dtype=np.float32)
+    pvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, pvbo)
+    glBufferData(GL_ARRAY_BUFFER, pontos, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    # Cores em tons de Azul Marinho e Ciano para o Quadrado
+    cores = [
+        0.0, 0.0, 0.5,   0.0, 0.0, 0.31,  0.0, 0.0, 0.2,
+        0.0, 0.0, 0.31,  0.0, 0.5, 0.5,   0.0, 0.0, 0.2
+    ]
+    cores = np.array(cores, dtype=np.float32)
+    cvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, cvbo)
+    glBufferData(GL_ARRAY_BUFFER, cores, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+
+def inicializaTriangulo():
+    """Ex5: Inicializa a geometria do Triângulo independente no lado Direito"""
+    global Vao_Triangulo
+    Vao_Triangulo = glGenVertexArrays(1)
+    glBindVertexArray(Vao_Triangulo)
+
+    pontos = [
+        0.5,  0.3, 0.0,  # Cima
+        0.8, -0.1, 0.0,  # Direita
+        0.2, -0.1, 0.0   # Esquerda
+    ]
+    pontos = np.array(pontos, dtype=np.float32)
+    pvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, pvbo)
+    glBufferData(GL_ARRAY_BUFFER, pontos, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+    # Cores em tons de Azul Royal e Vivo
+    cores = [
+        0.0,  0.0,  1.0,   # Azul Puro
+        0.26, 0.44, 0.76,  # Azul Royal
+        0.0,  0.0,  0.31   # Azul Marinho
+    ]
+    cores = np.array(cores, dtype=np.float32)
+    cvbo = glGenBuffers(1)
+    glBindBuffer(GL_ARRAY_BUFFER, cvbo)
+    glBufferData(GL_ARRAY_BUFFER, cores, GL_STATIC_DRAW)
+    glEnableVertexAttribArray(1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, None)
+
+
+# --- FUNÇÕES DE COMPILAÇÃO DE SHADERS (Ex5) ---
+
+def criarShader(vertex_code, fragment_code):
+    vs = OpenGL.GL.shaders.compileShader(vertex_code, GL_VERTEX_SHADER)
+    fs = OpenGL.GL.shaders.compileShader(fragment_code, GL_FRAGMENT_SHADER)
+    program = OpenGL.GL.shaders.compileProgram(vs, fs)
+    glDeleteShader(vs)
+    glDeleteShader(fs)
+    return program
+
+def inicializaShaderQuadrado():
+    global Shader_Quadrado
+    # Shader padrão que recebe e usa as cores enviadas pelos VBOs
+    v_code = """#version 400
+    layout(location = 0) in vec3 vertex_posicao;
+    layout(location = 1) in vec3 vertex_cores;
+    out vec3 cores;
+    void main () {
+        cores = vertex_cores;
+        gl_Position = vec4(vertex_posicao, 1.0);
+    }"""
+    f_code = """#version 400
+    in vec3 cores;
+    out vec4 frag_colour;
+    void main () {
+        frag_colour = vec4 (cores, 1.0);
+    }"""
+    Shader_Quadrado = criarShader(v_code, f_code)
+
+def inicializaShaderTriangulo():
+    global Shader_Triangulo
+    # Um shader diferente: este inverte os canais de cores no Fragment Shader para teste
+    v_code = """#version 400
+    layout(location = 0) in vec3 vertex_posicao;
+    layout(location = 1) in vec3 vertex_cores;
+    out vec3 cores;
+    void main () {
+        cores = vertex_cores;
+        gl_Position = vec4(vertex_posicao, 1.0);
+    }"""
+    f_code = """#version 400
+    in vec3 cores;
+    out vec4 frag_colour;
+    void main () {
+        // Multiplica a cor por um fator para torná-lo um azul ainda mais brilhante/personalizado
+        frag_colour = vec4 (cores.r * 0.5, cores.g, cores.b * 1.2, 1.0);
+    }"""
+    Shader_Triangulo = criarShader(v_code, f_code)
+
+
+def inicializaRenderizacao():
+    global Window, Shader_Quadrado, Shader_Triangulo
+    global Vao_Ex2_3, Vao_Ex4_T1, Vao_Ex4_T2, Vao_Quadrado, Vao_Triangulo, WIDTH, HEIGHT
+
+    while not glfw.window_should_close(Window):
+        glClear(GL_COLOR_BUFFER_BIT)
+        glClearColor(0.1, 0.15, 0.15, 1.0)
+        glViewport(0, 0, WIDTH, HEIGHT)
+
+        # =========================================================================
+        # SEÇÃO DE RENDERIZAÇÃO: escolha qual exercício visualizar descomentando-o!
+        # =========================================================================
+
+        # --- VISUALIZAÇÃO DO EXERCÍCIO 5 (Atende Quadrado e Triângulo lado a lado com 2 Shaders) ---
+        # Desenha o Quadrado (Lado Esquerdo)
+        glUseProgram(Shader_Quadrado)
+        glBindVertexArray(Vao_Quadrado)
+        glDrawArrays(GL_TRIANGLES, 0, 6) # Renderiza o quadrado (6 vértices)
+
+        # Desenha o Triângulo (Lado Direito)
+        glUseProgram(Shader_Triangulo)
+        glBindVertexArray(Vao_Triangulo)
+        glDrawArrays(GL_TRIANGLES, 0, 3) # Renderiza o triângulo (3 vértices)
+
+
+        # --- DESCOMENTE ABAIXO PARA TESTAR O EXERCÍCIO 2 E 3 ---
+        # (Lembre-se de comentar o bloco do Ex5 acima se quiser ver isolado)
+        # glUseProgram(Shader_Quadrado)
+        # glBindVertexArray(Vao_Ex2_3)
+        # glDrawArrays(GL_TRIANGLES, 0, 6) # Desenha os 6 vértices juntos do mesmo array
+
+
+        # --- DESCOMENTE ABAIXO PARA TESTAR O EXERCÍCIO 4 ---
+        # glUseProgram(Shader_Quadrado)
+        # glBindVertexArray(Vao_Ex4_T1)
+        # glDrawArrays(GL_TRIANGLES, 0, 3)
+        # glBindVertexArray(Vao_Ex4_T2)
+        # glDrawArrays(GL_TRIANGLES, 0, 3)
+
+        # =========================================================================
+
+        glfw.poll_events()
+        glfw.swap_buffers(Window)
+
+        if (glfw.PRESS == glfw.get_key(Window, glfw.KEY_ESCAPE)):
+            glfw.set_window_should_close(Window, True)
+    
+    glfw.terminate()
+
+def main():
+    inicializaOpenGL()
+    
+    # Inicializa as estruturas geométricas solicitadas nos exercícios
+    inicializaExercicio2_e_3()
+    inicializaExercicio4() 
+    inicializaQuadrado() 
+    inicializaTriangulo() 
+    
+    # Inicializa os múltiplos Shaders (Ex5)
+    inicializaShaderQuadrado() 
+    inicializaShaderTriangulo()     
+    # Loop de renderização principal
+    inicializaRenderizacao()
+
+if __name__ == "__main__":
+    main()
+    main()
