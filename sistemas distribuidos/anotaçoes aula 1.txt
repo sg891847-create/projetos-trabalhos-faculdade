@@ -1,0 +1,24 @@
+- ageitar o git 
+- essa bagaça vai ser em java
+- arquitetura de sistemas e cliente servidor
+
+cliente - servidor tcp/ip -> pratico x teórico 
+osi = 7 camadas
+tcp (teórico) = 4  
+aplicação - normalmente o que a gente foca 
+transporte
+internet 
+rede
+
+
+chave hash é basicamente uma senha bolada, pra ser usada em vez do padrão usuário:senha@.....
+
+ter a parte de comunicação diretamente no código 
+
+ponto a ponto
+
+um baixa de um e 10 (ou mais) baixam de quem ta baixando e por ai vai 
+também baseada em tcp/ip 
+
+threads
+sub proseços de proseços(tipo em sistemas operacionais)
