@@ -1,0 +1,3 @@
+cd "C:\Users\Windows 11\OneDrive\Documentos\codigos c"
+gcc Untitled-1.c -o Untitled-1.exe
+.\Untitled-1.exe
