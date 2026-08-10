@@ -1,0 +1,35 @@
+3 arquiteturas diferentes 
+
+cliente servidor
+
+uma ou mais maquinas atuam como servidores
+
+os clientes são maquinas 
+
+servidores gerenciam, controlam e atendem as requisições dos clientes 
+
+
+ponto a ponto 
+
+começou no torrente (foda)
+
+todos os nos tem papeis equivalentes 
+
+a comunicação é direta sem um no meio 
+
+se um ataliza todo mundo tem que atualizar, se não fudeu 
+
+
+sincronização é complexa, poeque?
+
+não tem relógio global sincronizado 
+
+as mensagens podem chegar fora de ordem ou se perder pelo cainho
+
+nós falham e ficam lentos 
+
+fazer o código com mvc
+
+string nome = "nero"
+nome.trim();
+nome.uppercase();
