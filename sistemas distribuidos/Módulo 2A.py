@@ -6,17 +6,16 @@ class ThreadFilial(threading.Thread):
     def __init__(self, id_filial, vendas):
         super().__init__()
         self.id_filial = id_filial
-        self.vendas = vendas       # Dados locais da filial (isolados)
-        self.total_local = 0.0    # Atributo que guardará o resultado local
-
+        self.vendas = vendas       
+        self.total_local = 0.0    
+        
     def run(self):
         self.total_local = sum(self.vendas)
 
 
 def principal():
-    # 1. Criação das 4 listas de vendas independentes (10.000 registros cada)
-    random.seed(42) # Semente fixa para resultados reproduzíveis
-    
+    #criação das 4 listas de vendas
+    random.seed(42)     
     filiais_dados = {
         "Filial 1 (Matriz)": [random.uniform(10.0, 500.0) for _ in range(10000)],
         "Filial 2 (Norte)":  [random.uniform(10.0, 500.0) for _ in range(10000)],
@@ -26,23 +25,23 @@ def principal():
 
     threads = []
     
-    print("Disparando o processamento paralelo das filiais...\n")
+    print("Disparando o processamento paralelo das filiais\n")
     tempo_inicio = time.time()
 
-    # 2. FORK: Instancia e dispara uma thread para cada filial
+    #FORK
     for nome, lista_vendas in filiais_dados.items():
         t = ThreadFilial(nome, lista_vendas)
         threads.append(t)
-        t.start() # Inicia o cálculo em paralelo
+        t.start() # Inicia o cálculo
 
-    # 3. JOIN: Aguarda o término de todas as threads
+    #aguarda o término de todas as threads
     for t in threads:
         t.join()
 
-    # 4. REDUCE / JUNÇÃO: Thread principal coleta os resultados e soma tudo
+    #thread principal coleta os resultados e soma a bagaça toda 
     faturamento_total_anual = 0.0
     
-    print("--- RESULTADOS INDEPENDENTES ---")
+    print("RESULTADOS INDEPENDENTES")
     for t in threads:
         print(f"{t.id_filial}: R$ {t.total_local:,.2f}")
         faturamento_total_anual += t.total_local
