@@ -21,23 +21,23 @@ def principal():
     print("Iniciando as vendas nos caixas...")
     tempo_inicio = time.time()
 
-        #Criação e inicializa as 5 threads
+        #criação e inicializa as 5 threads
     for i in range(1, num_caixas + 1):
         t = threading.Thread(target=caixa_vendedor, args=(i,))
         threads.append(t)
         t.start()  
-    #Sincronização de término das threads
+    #sincronização de término das threads
     for t in threads:
         t.join() 
         
     tempo_fim = time.time()
 
-    #Exibição dos resultados
+    #exibição dos resultados
     print("-" * 40)
     print(f"Vendas finalizadas em {tempo_fim - tempo_inicio:.4f} segundos.")
     print(f"Saldo final em conta: R$ {saldo_central:,.2f}")
     
-    #Validação 
+    #validação 
     saldo_esperado = num_caixas * 1000 * 10.00
     if saldo_central == saldo_esperado:
         print("SUCESSO: O saldo está perfeitamente consistente!")
