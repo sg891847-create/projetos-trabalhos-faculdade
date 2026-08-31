@@ -1,0 +1,18 @@
+struct é antigo 
+
+ultilizados para criar tipos(int, string ... por ex)
+
+a ideia de encapsulamento 
+
+um conjunto eterogenio de dados 
+
+
+
+typedef Struct {
+
+	float peso;
+	float altura;
+	string nome; 
+
+
+}IndiceMassa;
