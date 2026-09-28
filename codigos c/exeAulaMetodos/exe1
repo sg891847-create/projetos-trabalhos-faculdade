@@ -1,0 +1,34 @@
+//1fazer um programa e dentro dele um método que receba uma palavra (do tipo string) e uma letra (do tipo char). 
+//O método deve contar quantas vezes a letra aparece na palavra e exibir essa quantidade
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+    using namespace std;
+
+    int contarLetra(){
+        string palavra;
+        char letra;
+        int contador = 0;
+        cout << "Digite a palavra: ";
+        cin >> palavra;
+        cout << "Digite a letra: ";
+        cin >> letra;
+        for (int i = 0 ; i < palavra.length() ; i++){
+            if (palavra[i] == letra){
+                contador++;
+            }
+        }
+        cout << "A letra '" << letra << "' aparece " << contador 
+        << " vezes na palavra '" << palavra << "'." << endl;
+        return contador;
+    }
+
+    int main() {
+        contarLetra();
+        return 0;
+    }
+
+    

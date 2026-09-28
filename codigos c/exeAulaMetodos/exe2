@@ -1,0 +1,43 @@
+//fazer um programa e dentro dele um método que receba o dia (string), o mês (string) e o ano (string). 
+//O método deve escrever 'DATA VÁLIDA' ou 'DATA INVÁLIDA' para a situação das variáveis passadas.
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+    using namespace std;
+
+    int data(){
+
+        string dia;
+        string mes;
+        string ano;
+
+        cout << "Digite o dia: ";
+        cin >> dia;
+        cout << "Digite o mês: ";
+        cin >> mes;
+        cout << "Digite o ano: ";
+        cin >> ano;
+
+        int diaInt = stoi(dia);
+        int mesInt = stoi(mes);
+        int anoInt = stoi(ano);
+
+        if ((mesInt == 1 || mesInt == 3 || mesInt == 5 || mesInt == 7 ||
+             mesInt == 8 || mesInt == 10 || mesInt == 12) &&
+            diaInt >= 1 && diaInt <= 31 && anoInt >= 1 && anoInt <= 2100) {
+            cout << "DATA VÁLIDA" << endl;
+        } else {
+            cout << "DATA INVÁLIDA" << endl;
+        }
+
+        return 0;
+    }
+
+    int main() {
+        data();
+        return 0;
+    }

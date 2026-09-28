@@ -1,0 +1,26 @@
+//fazer um programa que tenha um método que receba um nome completo e retorne o primeiro nome desse nome completo.
+
+#include <iostream>
+#include <string>
+
+    using namespace std;
+
+    string primeiroNome(){
+
+        string nomeCompleto;
+        cout << "Digite o nome completo: ";
+        getline(cin, nomeCompleto);
+
+        size_t pos = nomeCompleto.find(' ');
+        if (pos != string::npos) {
+            return nomeCompleto.substr(0, pos);
+        } else {
+            return nomeCompleto; // Caso não haja espaço, retorna o nome completo
+        }
+    }
+
+    int main() {
+        string primeiro = primeiroNome();
+        cout << "O primeiro nome é: " << primeiro << endl;
+        return 0;
+    }

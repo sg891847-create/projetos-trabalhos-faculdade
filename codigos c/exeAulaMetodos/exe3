@@ -1,0 +1,29 @@
+//fazer um programa que tenha um método que receba uma frase e retorne a quantidade de vogais presentes na frase.
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+    using namespace std;
+
+    int contVogais(){
+
+        string frase;
+        int cont = 0;
+        cout << "Digite uma frase: ";
+        getline(cin, frase);
+
+        for (int i = 0; i < frase.length(); i++){
+            char vogal = tolower(frase[i]);
+            if (vogal == 'a' || vogal == 'e' || vogal == 'i' || vogal == 'o' || vogal == 'u'){
+                cont++;
+            }
+        }
+        return cont;
+    }
+
+    int main() {
+        int quantidadeVogais = contVogais();
+        cout << "A quantidade de vogais na frase é: " << quantidadeVogais << endl;
+        return 0;
+    }

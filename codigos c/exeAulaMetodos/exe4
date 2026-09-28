@@ -1,0 +1,25 @@
+//fazer um programa que tenha um método que receba uma frase e retorne essa frase totalmente em maiúscula
+#include <iostream>
+#include <string>
+#include <vector>
+
+    using namespace std;
+
+    string fraseMaiuscula(){
+
+        string frase;
+        cout << "Digite uma frase: ";
+        getline(cin, frase);
+
+        for (int i = 0; i < frase.length(); i++){
+            frase[i] = tolower(frase[i]);
+        }
+
+        return frase;
+    }
+
+    int main() {
+        string frase = fraseMaiuscula();
+        cout << "A frase em maiúscula é: " << frase << endl;
+        return 0;
+    }
