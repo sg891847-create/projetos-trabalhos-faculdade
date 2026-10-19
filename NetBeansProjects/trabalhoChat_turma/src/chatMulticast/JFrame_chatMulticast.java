@@ -333,7 +333,7 @@ public class JFrame_chatMulticast extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_textoDeEnvioKeyPressed
 
     private void jList_usuariosOnlineInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jList_usuariosOnlineInputMethodTextChanged
-        // TODO add your handling code here:
+        //fazer a liste selecionar o usuario, podendo enviar uma mensagem privada para o usuario
     }//GEN-LAST:event_jList_usuariosOnlineInputMethodTextChanged
 
     /**
