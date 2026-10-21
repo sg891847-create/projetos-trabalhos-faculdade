@@ -4,6 +4,8 @@
  */
 package view;
 
+import Formularios.RelatorioPessoas;
+
 /**
  *
  * @author laboratorio
@@ -36,6 +38,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menu_CadPessoa = new javax.swing.JMenuItem();
         menu_Editar_Excluir = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItemRelatorio = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -74,6 +77,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Relatórios");
+
+        jMenuItemRelatorio.setText("Relatório de pessoas");
+        jMenuItemRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRelatorioActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItemRelatorio);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -93,19 +105,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void menu_CadPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_CadPessoaActionPerformed
-       //CadastraPessoa cadPessoa = new CadastraPessoa();
-       //cadPessoa.setVisible(true);
+       // Se tiver a tela de cadastro criada, descomente a linha abaixo:
+       // CadastraPessoa cadPessoa = new CadastraPessoa();
+       // cadPessoa.setVisible(true);
     }//GEN-LAST:event_menu_CadPessoaActionPerformed
 
     private void menu_Editar_ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_Editar_ExcluirActionPerformed
-        //ConsultaPessoa consPessoa = new ConsultaPessoa();
-        //consPessoa.setVisable(true);
+        EditarExcluir editExcluir = new EditarExcluir();
+        editExcluir.setVisible(true);
     }//GEN-LAST:event_menu_Editar_ExcluirActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        //this.dispose(); - fecha a tela
         System.exit(0);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItemRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRelatorioActionPerformed
+        RelatorioPessoas relPessoa = new RelatorioPessoas();
+        relPessoa.setVisible(true);
+    }//GEN-LAST:event_jMenuItemRelatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,6 +155,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemRelatorio;
     private javax.swing.JMenuItem menu_CadPessoa;
     private javax.swing.JMenuItem menu_Editar_Excluir;
     private javax.swing.JMenu menu_bnt_sair;

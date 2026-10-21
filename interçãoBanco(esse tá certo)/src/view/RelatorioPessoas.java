@@ -4,6 +4,11 @@
  */
 package Formularios;
 
+import Beans.Pessoa;
+import Dao.PessoaDao;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author laboratorio
@@ -17,25 +22,28 @@ public class RelatorioPessoas extends javax.swing.JFrame {
      */
     public RelatorioPessoas() {
         initComponents();
-        //preencheTabela();
+        preencheTabela();
     }
         
-    /*public void preencheTabela(){
-            PessoaDao pDAO = new PessoaDao();
-            List<Pessoa>listaPessoas = pDAO.getPessoas();
-            
-            DefaultTableModel tablePessoas = (DefaultTableModel) Tbl_Pessoas.getModel();
-            
-            for(Pessoa p: listaPessoas){
-                Object[] obj = new Object[]{
+    public void preencheTabela(){
+        PessoaDao pDAO = new PessoaDao();
+        List<Pessoa> listaPessoas = pDAO.getPessoas();
+        
+        DefaultTableModel tabelaPessoas = (DefaultTableModel) Tbl_Pessoas.getModel();
+        
+        // Limpa as linhas anteriores para evitar duplicação
+        tabelaPessoas.setNumRows(0);
+        
+        for(Pessoa p: listaPessoas){
+            Object[] obj = new Object[]{
                 p.getId(),
                 p.getNome(),
                 p.getSexo(),
-                p.getIdioma()};
-            tablePessoas.addRow(obj);
-                   }
-            }
-        }*/
+                p.getIdioma()
+            };
+            tabelaPessoas.addRow(obj);
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,7 +58,7 @@ public class RelatorioPessoas extends javax.swing.JFrame {
         Tbl_Pessoas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Tbl_Pessoas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -5,17 +5,14 @@
 package Dao;
 import conexao.Conexao;
 import java.sql.*;
+import Beans.Pessoa;
+import java.util.ArrayList;
+import java.util.List;
 
-    
-    
-    
 /**
  *
  * @author laboratorio
  */
-import Beans.Pessoa;
-import java.util.ArrayList;
-import java.util.List;
 public class PessoaDao {
     private Conexao conexao;
     private Connection conn;
@@ -77,18 +74,6 @@ public class PessoaDao {
         }
     }
     
-    public static void main(String[] args) {
-        Pessoa p = new Pessoa();
-        p.setNome("Yuki");
-        p.setSexo("F");
-        p.setIdioma("Japones");
-       
-        
-        PessoaDao pDAO = new PessoaDao();
-        pDAO.incerir(p);
-    }
-    
-    
     public void excluir(int id) {
         String sql = "DELETE FROM pessoa WHERE id=?";
         try {
@@ -100,16 +85,14 @@ public class PessoaDao {
             System.out.println("Erro ao excluir pessoa: " + ex.getMessage());
         }
     }
-    public List<Pessoa> getPessoas(){
     
-        String sql = "Select * From pessoa";
+    public List<Pessoa> getPessoas(){
+        String sql = "SELECT * FROM pessoa";
         try {
-            
             PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
                                 ResultSet.CONCUR_UPDATABLE);
-            
             ResultSet rs = stmt.executeQuery();
-            List<Pessoa> listaPessoas = new ArrayList();
+            List<Pessoa> listaPessoas = new ArrayList<>();
             while (rs.next()){
                 Pessoa p = new Pessoa();
                 p.setId(rs.getInt("id"));
@@ -119,12 +102,33 @@ public class PessoaDao {
                 listaPessoas.add(p);
             }
             return listaPessoas;
-        }catch(SQLException ex){
+        } catch(SQLException ex){
             System.out.println("Erro ao consultar todas as pessoas: "+ex.getMessage());
             return null;
         }
-
+    }
+    
+    // Método adicionado para consultar filtrando por nome (conforme os slides)
+    public List<Pessoa> getPessoasNome(String nome){
+        String sql = "SELECT * FROM pessoa WHERE nome LIKE ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                ResultSet.CONCUR_UPDATABLE);
+            stmt.setString(1, "%" + nome + "%");
+            ResultSet rs = stmt.executeQuery();
+            List<Pessoa> listaPessoas = new ArrayList<>();
+            while (rs.next()){
+                Pessoa p = new Pessoa();
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setSexo(rs.getString("sexo"));
+                p.setIdioma(rs.getString("idioma"));
+                listaPessoas.add(p);
+            }
+            return listaPessoas;
+        } catch(SQLException ex){
+            System.out.println("Erro ao consultar pessoas por nome: "+ex.getMessage());
+            return null;
+        }
     }
 }
-   
-    
