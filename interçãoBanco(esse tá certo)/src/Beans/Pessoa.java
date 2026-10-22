@@ -46,5 +46,10 @@ public class Pessoa {
         this.idioma = idioma;
     }
     
+    public String toString(){
+    
+        return this.id+" - "+this.nome;
+    
+    }
     
 }

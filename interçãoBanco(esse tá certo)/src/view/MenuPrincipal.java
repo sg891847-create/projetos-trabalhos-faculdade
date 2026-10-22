@@ -4,8 +4,6 @@
  */
 package view;
 
-import Formularios.RelatorioPessoas;
-
 /**
  *
  * @author laboratorio

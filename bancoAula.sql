@@ -21,3 +21,11 @@ idioma varchar(50) not null);
 		("Elsie", "F", "Russo");
     
      select*from pessoa;
+
+
+create table pessoa(
+id int auto_increment primary key,
+modelo varchar(30) not null,
+placa varchar(7) not null,
+id_pessoa int not null
+foreing kei(id_pessoa) reference pessoa(id));
